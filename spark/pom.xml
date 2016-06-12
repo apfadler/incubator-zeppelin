@@ -36,8 +36,8 @@
   
   <properties>
     <spark.version>1.4.1</spark.version>
-    <scala.version>2.10.4</scala.version>
-    <scala.binary.version>2.10</scala.binary.version>
+    <scala.version>2.11.7</scala.version>
+    <scala.binary.version>2.11</scala.binary.version>
 
     <hadoop.version>2.3.0</hadoop.version>
     <py4j.version>0.8.2.1</py4j.version>
