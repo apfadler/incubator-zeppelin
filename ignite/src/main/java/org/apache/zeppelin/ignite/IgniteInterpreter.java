@@ -208,7 +208,9 @@ public class IgniteInterpreter extends Interpreter {
           conf.setPeerClassLoadingEnabled(
                   Boolean.parseBoolean(getProperty(IGNITE_PEER_CLASS_LOADING_ENABLED)));
 
+          logger.info("APF: Starting ignite");
           ignite = Ignition.start(conf);
+          logger.info("APF: ignite started");
         }
 
         initEx = null;
