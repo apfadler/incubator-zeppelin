@@ -139,6 +139,8 @@ public class IgniteInterpreter extends Interpreter {
     imain = new IMain(settings, new PrintWriter(out));
 
     initIgnite();
+    
+    logger.info("APF: Opened");
   }
 
   private List<File> currentClassPath() {
@@ -224,9 +226,12 @@ public class IgniteInterpreter extends Interpreter {
     if (getIgnite() != null) {
       binder.put("ignite", ignite);
 
+      logger.info("APF: initIgnite-1");
       imain.interpret("@transient val ignite = "
               + "_binder.get(\"ignite\")"
               + ".asInstanceOf[org.apache.ignite.Ignite]");
+              
+      logger.info("APF: initIgnite-2");
     }
   }
 
@@ -277,6 +282,9 @@ public class IgniteInterpreter extends Interpreter {
   }
 
   private InterpreterResult interpret(String[] lines) {
+    
+    logger.info("APF: Interpreting.");
+    
     String[] linesToRun = new String[lines.length + 1];
     System.arraycopy(lines, 0, linesToRun, 0, lines.length);
     linesToRun[lines.length] = "print(\"\")";
