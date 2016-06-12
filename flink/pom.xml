@@ -37,9 +37,9 @@
   <properties>
     <flink.version>0.9.0</flink.version>
     <flink.akka.version>2.3.7</flink.akka.version>
-    <flink.scala.binary.version>2.10</flink.scala.binary.version>
-    <flink.scala.version>2.10.4</flink.scala.version>
-    <scala.macros.version>2.0.1</scala.macros.version>
+    <flink.scala.binary.version>2.11</flink.scala.binary.version>
+    <flink.scala.version>2.11.7</flink.scala.version>
+    <scala.macros.version>2.1.0</scala.macros.version>
   </properties>
 
   <dependencies>
