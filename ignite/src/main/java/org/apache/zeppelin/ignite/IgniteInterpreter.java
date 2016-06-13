@@ -102,6 +102,9 @@ public class IgniteInterpreter extends Interpreter {
 
   @Override
   public void open() {
+    
+    getIgnite();
+    
     Settings settings = new Settings();
 
     URL[] urls = getClassloaderUrls();
