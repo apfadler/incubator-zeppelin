@@ -110,6 +110,7 @@
     <module>zeppelin-web</module>
     <module>zeppelin-server</module>
     <module>zeppelin-distribution</module>
+    <module>ignite_python</module>
   </modules>
 
   <properties>
