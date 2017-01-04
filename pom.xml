@@ -90,6 +90,7 @@
     <module>angular</module>
     <module>shell</module>
     <module>ignite</module>
+	<module>ignite_python</module>
     <module>zeppelin-web</module>
     <module>zeppelin-server</module>
     <module>zeppelin-distribution</module>

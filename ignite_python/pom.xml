@@ -22,24 +22,15 @@
   <parent>
     <artifactId>zeppelin</artifactId>
     <groupId>org.apache.zeppelin</groupId>
-    <version>0.6.0-incubating-SNAPSHOT</version>
+    <version>0.5.5-incubating</version>
     <relativePath>..</relativePath>
   </parent>
 
   <artifactId>ignite_python</artifactId>
   <packaging>jar</packaging>
-  <version>0.6.0-incubating-SNAPSHOT</version>
+  <version>0.5.5-incubating</version>
   <name>Zeppelin: Apache Ignite Python interpreter</name>
   <url>http://zeppelin.incubator.apache.org</url>
-
-  <!-- <repositories>
-    <repository>
-      <id>jython</id>
-      <name>Jython</name>
-      <url>https://mvnrepository.com/artifact/org.python/jython-standalone/</url>
-    </repository>
-  </repositories> -->
-
 
   <properties>
     <ignite.version>1.5.0.final</ignite.version>
