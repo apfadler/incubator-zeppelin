@@ -33,9 +33,9 @@
   <url>http://zeppelin.incubator.apache.org</url>
 
   <properties>
-    <ignite.version>1.5.0.final</ignite.version>
-    <ignite.scala.binary.version>2.10</ignite.scala.binary.version>
-    <ignite.scala.version>2.10.4</ignite.scala.version>
+    <ignite.version>1.6.0</ignite.version>
+    <ignite.scala.binary.version>2.11</ignite.scala.binary.version>
+    <ignite.scala.version>2.11.7</ignite.scala.version>
   </properties>
 
   <dependencies>
