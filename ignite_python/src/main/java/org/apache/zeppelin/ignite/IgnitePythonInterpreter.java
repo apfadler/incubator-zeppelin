@@ -102,6 +102,7 @@ public class IgnitePythonInterpreter extends Interpreter {
     out = new ByteArrayOutputStream();
     interp = new InteractiveInterpreter();
     interp.setOut(new PrintWriter(out));
+    interp.setErr(out);
 
     initIgnite();
   }
