@@ -196,33 +196,17 @@ public class IgnitePythonInterpreter extends Interpreter {
   }
 
   private InterpreterResult interpret(String[] lines) {
-    String[] linesToRun = new String[lines.length + 1];
-    System.arraycopy(lines, 0, linesToRun, 0, lines.length);
-    linesToRun[lines.length] = "print(\"\")";
-
+    
     out.reset();
     Code code = null;
 
-    String incomplete = "";
-    for (int l = 0; l < linesToRun.length; l++) {
-      String s = linesToRun[l];      
-      // check if next line starts with "." (but not ".." or "./") it is treated as an invocation
-      if (l + 1 < linesToRun.length) {
-        String nextLine = linesToRun[l + 1].trim();
-        if (nextLine.startsWith(".") && !nextLine.startsWith("..") && !nextLine.startsWith("./")) {
-          incomplete += s + "\n";
-          continue;
-        }
-      }
-
-      try {
-        interp.runsource(incomplete + s);
-      } catch (Exception e) {
-        logger.info("Interpreter exception", e);
-        return new InterpreterResult(Code.ERROR, InterpreterUtils.getMostRelevantMessage(e));
-      }
+    try {
+      interp.runsource(String.join("\n", lines));
+    } catch (Exception e) {
+      logger.info("Interpreter exception", e);
+      return new InterpreterResult(Code.ERROR, InterpreterUtils.getMostRelevantMessage(e));
     }
-
+  
     return new InterpreterResult(Code.SUCCESS, out.toString());
   }
 
