@@ -40,7 +40,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Properties;
 
-import org.python.util.InteractiveInterpreter;
+import org.python.util.PythonInterpreter;
 
 //TODO(apfadler) alternative?
 import scala.tools.nsc.interpreter.Results.Result;
@@ -91,7 +91,7 @@ public class IgnitePythonInterpreter extends Interpreter {
   private Ignite ignite;
   private ByteArrayOutputStream out;
   private Throwable initEx;
-  private InteractiveInterpreter interp;
+  private PythonInterpreter interp;
 
   public IgnitePythonInterpreter(Properties property) {
     super(property);
@@ -100,7 +100,7 @@ public class IgnitePythonInterpreter extends Interpreter {
   @Override
   public void open() {
     out = new ByteArrayOutputStream();
-    interp = new InteractiveInterpreter();
+    interp = new PythonInterpreter();
     interp.setOut(new PrintWriter(out));
     interp.setErr(out);
 
@@ -201,7 +201,7 @@ public class IgnitePythonInterpreter extends Interpreter {
     Code code = null;
 
     try {
-      interp.runsource(String.join("\n", lines));
+      interp.exec(String.join("\n", lines));
     } catch (Exception e) {
       logger.info("Interpreter exception", e);
       return new InterpreterResult(Code.ERROR, InterpreterUtils.getMostRelevantMessage(e));
