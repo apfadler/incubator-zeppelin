@@ -40,16 +40,10 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Properties;
 
-import scala.Console;
-import scala.None;
-import scala.Some;
-import scala.tools.nsc.Settings;
-import scala.tools.nsc.interpreter.IMain;
-import scala.tools.nsc.interpreter.Results.Result;
-import scala.tools.nsc.settings.MutableSettings.BooleanSetting;
-import scala.tools.nsc.settings.MutableSettings.PathSetting;
-
 import org.python.util.InteractiveInterpreter;
+
+//TODO(apfadler) alternative?
+import scala.tools.nsc.interpreter.Results.Result;
 
 
 /**
@@ -96,7 +90,6 @@ public class IgnitePythonInterpreter extends Interpreter {
   private Logger logger = LoggerFactory.getLogger(IgnitePythonInterpreter.class);
   private Ignite ignite;
   private ByteArrayOutputStream out;
-  private IMain imain;
   private Throwable initEx;
   private InteractiveInterpreter interp;
 
@@ -106,90 +99,13 @@ public class IgnitePythonInterpreter extends Interpreter {
 
   @Override
   public void open() {
-    Settings settings = new Settings();
-
-    URL[] urls = getClassloaderUrls();
-
-    // set classpath
-    PathSetting pathSettings = settings.classpath();
-    StringBuilder sb = new StringBuilder();
-
-    for (File f : currentClassPath()) {
-      if (sb.length() > 0) {
-        sb.append(File.pathSeparator);
-      }
-      sb.append(f.getAbsolutePath());
-    }
-
-    if (urls != null) {
-      for (URL u : urls) {
-        if (sb.length() > 0) {
-          sb.append(File.pathSeparator);
-        }
-        sb.append(u.getFile());
-      }
-    }
-
-    pathSettings.v_$eq(sb.toString());
-    settings.scala$tools$nsc$settings$ScalaSettings$_setter_$classpath_$eq(pathSettings);
-
-    settings.explicitParentLoader_$eq(new Some<>(Thread.currentThread().getContextClassLoader()));
-
-    BooleanSetting b = (BooleanSetting) settings.usejavacp();
-    b.v_$eq(true);
-    settings.scala$tools$nsc$settings$StandardScalaSettings$_setter_$usejavacp_$eq(b);
-
     out = new ByteArrayOutputStream();
-    imain = new IMain(settings, new PrintWriter(out));
-
     interp = new InteractiveInterpreter();
     interp.setOut(new PrintWriter(out));
 
     initIgnite();
   }
 
-  private List<File> currentClassPath() {
-    List<File> paths = classPath(Thread.currentThread().getContextClassLoader());
-    String[] cps = System.getProperty("java.class.path").split(File.pathSeparator);
-
-    for (String cp : cps) {
-      paths.add(new File(cp));
-    }
-
-    return paths;
-  }
-
-  private List<File> classPath(ClassLoader cl) {
-    List<File> paths = new LinkedList<>();
-
-    if (cl == null) {
-      return paths;
-    }
-
-    if (cl instanceof URLClassLoader) {
-      URLClassLoader ucl = (URLClassLoader) cl;
-      URL[] urls = ucl.getURLs();
-      if (urls != null) {
-        for (URL url : urls) {
-          paths.add(new File(url.getFile()));
-        }
-      }
-    }
-
-    return paths;
-  }
-
-  public Object getValue(String name) {
-    Object val = imain.valueOfTerm(name);
-
-    if (val instanceof None) {
-      return null;
-    } else if (val instanceof Some) {
-      return ((Some) val).get();
-    } else {
-      return val;
-    }
-  }
 
   private Ignite getIgnite() {
     if (ignite == null) {
@@ -242,11 +158,6 @@ public class IgnitePythonInterpreter extends Interpreter {
       ignite.close();
       ignite = null;
     }
-
-    if (imain != null) {
-      imain.close();
-      imain = null;
-    }
   }
 
   private List<String> getAddresses() {
@@ -288,7 +199,6 @@ public class IgnitePythonInterpreter extends Interpreter {
     System.arraycopy(lines, 0, linesToRun, 0, lines.length);
     linesToRun[lines.length] = "print(\"\")";
 
-    Console.setOut(out);
     out.reset();
     Code code = null;
 
