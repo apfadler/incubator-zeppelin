@@ -204,7 +204,8 @@ public class IgnitePythonInterpreter extends Interpreter {
       interp.exec(String.join("\n", lines));
     } catch (Exception e) {
       logger.info("Interpreter exception", e);
-      return new InterpreterResult(Code.ERROR, "\nJython Error: \n" + out.toString() + "\n" + InterpreterUtils.getMostRelevantMessage(e));
+      return new InterpreterResult(Code.ERROR, "\nJython Error: \n" + out.toString() + 
+                                   "\n" + InterpreterUtils.getMostRelevantMessage(e));
     }
   
     return new InterpreterResult(Code.SUCCESS, out.toString());
